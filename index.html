@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Google Map</title>
+    <link href="styles.css" rel="stylesheet"/>
+    <style>
+        #map{
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Google Map</h1>
+    <div id="map"></div>
+<script>
+
+  function initMap(){
+    var options = {
+      zoom:14,
+      center:{lat:-23.566339,lng:-46.684735}
+    }
+    var map = new google.maps.Map(document.getElementById('map'),options);
+    var directionsDisplay = new google.maps.DirectionsRenderer({ 'draggable': true });
+    var directionsService = new google.maps.DirectionsService();
+    directionsDisplay.setMap(map);
+
+    var request = {
+        origin: {lat:-23.566339,lng:-46.684735},
+        destination: {lat:-23.566339,lng:-46.684735},
+        waypoints:[
+          {
+            location:{lat:-23.566777,lng:-46.685214},
+            stopover:true
+          },
+          {
+            location:{lat:-23.566313,lng:-46.684583},
+            stopover:true
+          },
+          {
+            location:{lat:-23.565,lng:-46.684},
+            stopover:true
+          }
+        ],
+        travelMode: google.maps.TravelMode.DRIVING,
+        optimizeWaypoints:true
+    };
+
+    directionsService.route(request, function (response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+        }
+    });
+
+    function addMarker(coords){
+      var marker = new google.maps.Marker({
+        position:coords,
+        map:map
+      });
+    }
+
+  }
+</script>
+    <h2>Filtros de rutas</h2>
+    <fieldset>
+      <legend>Escoger compañia</legend>
+      <input id="ox" type="checkbox" value="ox" name="company">
+      <label for="ox">OX</label>
+      <input id="hk" type="checkbox" value="hk" name="company">
+      <label for="hk">HK</label>
+      <input id="un" type="checkbox" value="un" name="company">
+      <label for="un">UN</label>
+    </fieldset>
+    <fieldset>
+      <legend>Escoger tipo de vehículo</legend>
+      <input id="car" type="checkbox" value="car" name="vehicle">
+      <label for id="car">Carro</label>
+      <input id="truck" type="checkbox" value="truck" name="vehicle">
+      <label for id="truck">Camioneta</label>
+      <input id="horse" type="checkbox" value="horse" name="vehicle">
+      <label for id="horse">Caballo</label>
+      <input id="motorbike" type="checkbox" value="motorbike" name="vehicle">
+      <label for id="motorbike">Motocicleta</label>
+      <input id="bicycle" type="checkbox" value="bicycle" name="vehicle">
+      <label for id="bicycle">Bicicleta</label>
+      <input id="pedestrian" type="checkbox" value="pedestrian" name="vehicle">
+      <label for id="pedestrian">Peatón</label>
+    </fieldset>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnaPzD2oxxKU2eJTA4ARbSiFiiK5grDIE&callback=initMap&v=weekly"
+      defer>
+    </script>
+</body>
+</html>
